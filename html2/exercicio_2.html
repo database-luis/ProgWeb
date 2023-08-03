@@ -10,7 +10,32 @@
 
         <fieldset>
             <legend>Dados Básicos</legend>
-            <input type="text" name="nome">
+            Nome: <input type="text" name="nome"><br>
+            E-mail: <input type="email" name="email" required placeholder="seuemail@dominio.com"><br>
+            Website: <input type="text" value="https://"><br>
+        </fieldset>
+
+        <fieldset>
+            <legend>Curso</legend>
+            <input type="radio" name="curso" value="cc"> Ciência da Computação <br>
+            <input type="radio" name="curso" value="es"> Engenharia de Software <br>
+            <input type="radio" name="curso" value="ec"> Engenharia da Computação <br>
+        </fieldset>
+
+        <fieldset>
+            <legend>Assinale as linguagens já utilizadas por você</legend>
+            Java <input type="checkbox" value="java"> 
+            C <input type="checkbox" value="c">
+            C++ <input type="checkbox" value="cpp">
+            Perl <input type="checkbox" value="perl">
+            Python <input type="checkbox" value="python">
+            Javascript <input type="checkbox" value="js"> <br>
+            Outra (escreva): <input type="text" name="outra">
+        </fieldset>
+
+        <fieldset>
+            <legend>Dados complementares</legend>
+            Cor favorita: <input type="color" id="cor" name="cor">
         </fieldset>
         
     </body>
