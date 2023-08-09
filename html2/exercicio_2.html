@@ -35,8 +35,34 @@
 
         <fieldset>
             <legend>Dados complementares</legend>
-            Cor favorita: <input type="color" id="cor" name="cor">
+            Cor favorita: <input type="color" id="cor" name="cor"><br>
+            Data de nascimento: <input type="date"><br>
+            Ano de ingresso na UFAM <input type="number" name="ano" min="1919" max="2023" step="1" value="2023"><br>
+            Nota para o design dessa pagina <input type="range" id="slider" name="slider" min="0" max="10" step="0.5" value="0">
         </fieldset>
+
+        <fieldset>
+            <legend>Seu curriculo vitae</legend>
+            <input type="file" name="curriculo">
+        </fieldset>
+
+        <fieldset>
+            <legend>Área de atuação</legend>
+            <select name="area" id="area">
+                <option value="1">Banco de dados</option>
+                <option value="2">Inteligência artificial</option>
+                <option value="3">Programação web</option>
+            </select>
+        </fieldset>
+
+        <fieldset>
+            <legend>Sugestões</legend>
+            <textarea name="sugestao" rows="5" cols="35">
+            Escreva aqui..
+            </textarea>
+        </fieldset>
+
+
         
     </body>
 </html>
