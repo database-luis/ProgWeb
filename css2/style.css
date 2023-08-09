@@ -1,0 +1,11 @@
+div {
+    margin: 100px;
+    border: 10px solid blueviolet;
+    background: rgba(234, 182, 288, .4);
+    border-radius: 16px;
+    width: 500px;
+}
+
+body {
+    background-image: url(images/arca.jpg);
+}
