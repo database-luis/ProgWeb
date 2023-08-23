@@ -1,38 +1,42 @@
-var tabela = document.createElement('table');
-var cabecalho = document.createElement('thead');
-var corpo = document.createElement('tbody');
 var num = 10;
 var i;
 var j;
+var t;
 
-tabela.appendChild(cabecalho);
-tabela.appendChild(corpo);
+for(t = 1; t <= num; t++){
+    var tabela = document.createElement('table');
+    var cabecalho = document.createElement('thead');
+    var corpo = document.createElement('tbody');
 
-tabela.classList.add('tabela-borda');
+    tabela.appendChild(cabecalho);
+    tabela.appendChild(corpo);
 
-document.getElementById('test').appendChild(tabela);
+    tabela.classList.add('tabela-borda');
 
-for (i = 1; i <= num; i++) {
-    var linhaCabecalho = document.createElement('tr');
+    document.getElementById('test').appendChild(tabela);
 
-    var celulaCabecalho1 = document.createElement('th');
+    for (i = 1; i <= num; i++) {
+        var linhaCabecalho = document.createElement('tr');
 
-    celulaCabecalho1.setAttribute('colspan', '2');
-    celulaCabecalho1.textContent = 'produtos de ' + i;
+        var celulaCabecalho1 = document.createElement('th');
 
-    for(j = 1; j <= num; j++){
-        var linhaCorpo = document.createElement('tr');
-        var celulaCorpo1 = document.createElement('td');
-        var celulaCorpo2 = document.createElement('td');
+        celulaCabecalho1.setAttribute('colspan', '2');
+        celulaCabecalho1.textContent = 'produtos de ' + i;
 
-        celulaCorpo1.textContent = i + ' x ' + j; 
-        celulaCorpo2.textContent = i * j;
-        linhaCorpo.appendChild(celulaCorpo1);
-        linhaCorpo.appendChild(celulaCorpo2);
-        corpo.appendChild(linhaCorpo);
+        for(j = 1; j <= num; j++){
+            var linhaCorpo = document.createElement('tr');
+            var celulaCorpo1 = document.createElement('td');
+            var celulaCorpo2 = document.createElement('td');
+
+            celulaCorpo1.textContent = i + ' x ' + j; 
+            celulaCorpo2.textContent = i * j;
+            linhaCorpo.appendChild(celulaCorpo1);
+            linhaCorpo.appendChild(celulaCorpo2);
+            corpo.appendChild(linhaCorpo);
+        }
+
+        linhaCabecalho.appendChild(celulaCabecalho1);
+        cabecalho.appendChild(linhaCabecalho);
+
     }
-
-    linhaCabecalho.appendChild(celulaCabecalho1);
-    cabecalho.appendChild(linhaCabecalho);
-
 }
