@@ -1,0 +1,23 @@
+.caixaAzul {
+    margin: 10px;
+    background-color: blue;
+    width: 200px;
+    height: 200px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.caixaVermelha {
+    background-color: red;
+    width: 100px;
+    height: 100px;
+}
+
+.fila1 {
+    display: flex;
+}
+
+.fila2 {
+    display: flex;
+}

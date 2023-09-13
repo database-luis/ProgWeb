@@ -1,0 +1,11 @@
+/*span[title='css']{
+    background-color: red;
+}
+
+p .cl1 {
+    background-color: blue;
+}
+
+span.cl1 {
+    background-color: green;
+}*/
