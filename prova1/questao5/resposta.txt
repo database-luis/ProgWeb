@@ -1,0 +1,2 @@
+A diferença é que o operador == retorna a equivalẽncia entre os valores comparados, por exemplo 0 == '0' retorna true; o operador === retorna a equivalẽncia entre
+o tipo e o valor, exemplo 0 === '0' retorna false;
