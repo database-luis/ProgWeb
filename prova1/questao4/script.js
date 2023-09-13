@@ -5,6 +5,10 @@ const vermelho = document.getElementById("vermelho");
 const reset = document.getElementById("reset");
 
 
-verde.addEventListener('click', function(){
-    div.setAttribute("background-color", 'green');
+verde.addEventListener("click", function(){
+    div.style.setProperty("background-color", "green");
+});
+
+vermelho.addEventListener("click", function(){
+    div.style.setProperty("background-color", "red");
 });
