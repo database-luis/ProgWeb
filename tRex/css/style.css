@@ -45,3 +45,27 @@
   position: absolute;
   z-index: 2;
 }
+
+.letreiro {
+  background-image: url(../img/sprite.png);
+  position: absolute;
+  z-index: 4;
+  background-position-x: -971px;
+  background-position-y: -22px;
+  width: 286px;
+  height: 16px;
+  right: 400px;
+  top: 120px;
+}
+
+.botao {
+  background-image: url(../img/sprite.png);
+  position: absolute;
+  z-index: 4;
+  background-position-x: -2px;
+  background-position-y: -2px;
+  width: 54px;
+  height: 48px;
+  top: 150px;
+  right: 542px;
+}

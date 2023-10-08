@@ -8,13 +8,23 @@
   const PROB_PTERO = 1;
 
   let gameLoop;
+  let trocaTurno;
   let deserto;
   let dino;
+  let letreiro;
+  let botao;
   let nuvens = [];
   let frame = 0;
   let cactos = [];
-  let jogoIniciou = false;
+  let jogoIniciou = false; // a diferença entre as duas eh q a primeira serve para iniciar o jogo com espaço, guarda o estado da div "zerada"
+  let jogoAtivo = true; // esta serve para as funções de pausa e de reiniciar o jogo quando perdemos
+  let jogoPerdeu = false;
   let pteros = [];
+  let deslocamentoChao = 1;
+  let deslocamentoCacto = 1;
+  let deslocamentoPtero = 2;
+  let deslocamentoNuvem = 1;
+  let tempoDecorrido = 0;
 
   function init() {
     gameLoop = setInterval(run, 1000 / FPS)
@@ -26,6 +36,15 @@
       deserto.mudarCor();
     }, 60000);
     deserto.mudarCor();
+  }
+
+  function retornaJogo(){
+    gameLoop = setInterval(run, 1000 / FPS)
+    trocaTurno = setInterval(() => {
+      deserto.mudarCor();
+    }, 60000);
+
+    jogoAtivo = true
   }
 
   window.addEventListener("keydown", (e) => {
@@ -51,7 +70,24 @@
     if (e.code === "ArrowDown") {
       if (dino.status === 3) dino.status = 0;
     }
-  });
+  })
+  
+  window.addEventListener("keydown", (e) => {
+    if(e.code === "KeyP") {
+      if(jogoAtivo === true) pausaJogo();
+    
+      else{
+        retornaJogo()
+      }
+    } 
+
+  })
+
+  document.addEventListener("click", (e) => {
+    if(e.target.className === "botao"){
+      reiniciaJogo()
+    }
+  })
 
   class Deserto {
     constructor() {
@@ -66,9 +102,11 @@
       this.chao.className = "chao"
       this.chao.style.backgroundPositionX = 0;
       this.element.appendChild(this.chao)
+
     }
+
     mover() {
-      this.chao.style.backgroundPositionX = `${parseInt(this.chao.style.backgroundPositionX) - 1}px`
+      this.chao.style.backgroundPositionX = `${parseInt(this.chao.style.backgroundPositionX) - deslocamentoChao}px`
     }
 
     mudarCor() {
@@ -79,7 +117,9 @@
         this.element.style.backgroundColor = "#8C8C8C"; //finge que a cidade ta cheia de fumaça e a noite ta branca kk
         console.log(this.isDia)
       }
-      this.isDia = !this.isDia; 
+
+      this.isDia = !this.isDia;
+      
     }
   }
 
@@ -168,7 +208,7 @@
       deserto.element.appendChild(this.element);
     }
     mover() {
-      this.element.style.right = `${parseInt(this.element.style.right) + 1}px`;
+      this.element.style.right = `${parseInt(this.element.style.right) + deslocamentoNuvem}px`;
       const posicao = parseInt(this.element.style.right)
 
       if(posicao >= WIDTH){
@@ -275,7 +315,7 @@
     }
 
     mover(){
-      this.element.style.right = `${parseInt(this.element.style.right) + 1}px`;
+      this.element.style.right = `${parseInt(this.element.style.right) + deslocamentoCacto}px`;
 
       const posicao = parseInt(this.element.style.right)
 
@@ -310,6 +350,8 @@
         posicao2: "-2px",
       }
 
+      this.nivel = 0 //parseInt(Math.random() * 3);
+
       this.element.style.right = 0;
 
       this.element.style.backgroundPositionX = this.backgroundPositionsX.posicao1;
@@ -318,13 +360,27 @@
     }
 
     mover(){
-      this.element.style.right = `${parseInt(this.element.style.right) + 2}px`;
+      this.element.style.right = `${parseInt(this.element.style.right) + deslocamentoPtero}px`;
       const posicao = parseInt(this.element.style.right)
+
+      if(this.nivel === 0){
+        this.element.style.bottom = "220px";
+      }
+
+      else if(this.nivel === 1){
+        this.element.style.bottom = "47px";
+      }
+
+      else {
+        this.element.style.bottom = "20px";
+        console.log("baixinhooo");
+      }
 
       if(posicao >= WIDTH){
         this.element.remove();
         pteros.shift();
       }
+
     }
 
     voar(){
@@ -333,20 +389,80 @@
         this.element.style.backgroundPositionY = this.backgroundPositionsY.posicao2;
         this.element.style.height = this.altura.posicao2; 
       }
+
+      else {
+        this.element.style.height = this.altura.posicao1;
+      }
     }
   }
 
+  class Letreiro {
+    constructor(){
+      this.element = document.createElement("div")
+      this.element.className = "letreiro"
+    } 
+
+    mostrarLetreiro(){
+      if(jogoPerdeu === true){
+        deserto.element.appendChild(this.element)
+      }
+    }
+  }
+
+  class Botao {
+    constructor(){
+      this.element = document.createElement("div")
+      this.element.className = "botao"
+    }
+
+    mostrarBotao(){
+      if(jogoPerdeu === true){
+        deserto.element.appendChild(this.element)
+      }
+    }
+  }
+
+  function reiniciaJogo(){
+
+  }
+
+  function verificarColisao() {
+    for (let i = 0; i < cactos.length; i++) {
+      const cacto = cactos[i];
+  
+      if (dino.element.offsetLeft + dino.element.offsetWidth > cacto.element.offsetLeft && dino.element.offsetLeft < cacto.element.offsetLeft + cacto.element.offsetWidth && dino.element.offsetTop + dino.element.offsetHeight > cacto.element.offsetTop) {
+        fimDeJogo()
+      }
+    }
+
+    for (let j = 0; j < pteros.length; j++) {
+      const ptero = pteros[j];
+  
+      if (dino.element.offsetLeft + dino.element.offsetWidth > ptero.element.offsetLeft && dino.element.offsetLeft < ptero.element.offsetLeft + ptero.element.offsetWidth && dino.element.offsetTop + dino.element.offsetHeight > ptero.element.offsetTop) {
+        fimDeJogo()
+      }
+    }
+  }
+
+  function aumentarDeslocamento(){
+    deslocamentoChao += 1;
+    deslocamentoCacto += 1;
+    deslocamentoPtero += 2;
+    deslocamentoNuvem += 1;
+  }
+
   function run() {
+    tempoDecorrido += 1 / FPS;
+
     frame = frame + 1
     if (frame === FPS) frame = 0;
     deserto.mover()
     dino.correr()
+    verificarColisao()
     if (Math.random() * 800 <= PROB_NUVEM) nuvens.push(new Nuvem()) // decidi diminuir a geração de nuvens..
     if (frame % 2 === 0) nuvens.forEach(nuvem => nuvem.mover())
     if(Math.random() * 1000 <= PROB_CACTO) cactos.push(new Cacto())
     if(Math.random() * 500 <= PROB_PTERO) pteros.push(new Ptero())
-
-
     
     cactos.forEach(cacto => cacto.escolher());
     cactos.forEach(cacto => cacto.mover());
@@ -354,15 +470,44 @@
     pteros.forEach(ptero => ptero.mover());
     pteros.forEach(ptero => ptero.voar());
 
+    if(tempoDecorrido >= 60){
+      aumentarDeslocamento();
+      tempoDecorrido = 0;
+    }
+
   }
+
+  function pausaJogo(){
+
+    if (jogoAtivo === true) {
+      clearInterval(gameLoop);
+      clearInterval(trocaTurno);
+      jogoAtivo = false;
+    } 
+    
+    else {
+      retornaJogo();
+    }
+  }
+
+ 
 
   //init()
 
   
   deserto = new Deserto();
   dino = new Dino();
+  botao = new Botao();
+  letreiro = new Letreiro()
   dino.element.style.backgroundPositionX = "-1259px";
   dino.element.style.backgroundPositionY = "-2px";
-  cacto = new Cacto();
+
+  function fimDeJogo(){
+    jogoPerdeu = true
+    clearInterval(gameLoop)
+    clearInterval(trocaTurno)
+    botao.mostrarBotao()
+    letreiro.mostrarLetreiro()
+  }
 
 })()
