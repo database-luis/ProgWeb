@@ -5,6 +5,7 @@
   const WIDTH = 1024;
   const PROB_NUVEM = 1;
   const PROB_CACTO = 1;
+  const PROB_PTERO = 1;
 
   let gameLoop;
   let deserto;
@@ -13,6 +14,7 @@
   let frame = 0;
   let cactos = [];
   let jogoIniciou = false;
+  let pteros = [];
 
   function init() {
     gameLoop = setInterval(run, 1000 / FPS)
@@ -281,8 +283,6 @@
         this.element.remove();
         cactos.shift();
       }
-
-      console.log(cactos);
     }
 
   }
@@ -291,7 +291,48 @@
     constructor(){
       this.element = document.createElement("div");
       this.element.className = "ptero";
+      deserto.element.appendChild(this.element);
 
+      this.altura = {
+        posicao1: "51px",
+        posicao2: "45px"
+      }
+
+      this.element.style.width = "69px";
+
+      this.backgroundPositionsX = {
+        posicao1: "-192px",
+        posicao2: "-264px"
+      }
+
+      this.backgroundPositionsY = {
+        posicao1: "-11px",
+        posicao2: "-2px",
+      }
+
+      this.element.style.right = 0;
+
+      this.element.style.backgroundPositionX = this.backgroundPositionsX.posicao1;
+      this.element.style.backgroundPositionY = this.backgroundPositionsY.posicao1;
+      this.element.style.height = this.altura.posicao1;
+    }
+
+    mover(){
+      this.element.style.right = `${parseInt(this.element.style.right) + 2}px`;
+      const posicao = parseInt(this.element.style.right)
+
+      if(posicao >= WIDTH){
+        this.element.remove();
+        pteros.shift();
+      }
+    }
+
+    voar(){
+      if(frame % 30 === 0){
+        this.element.style.backgroundPositionX = this.element.style.backgroundPositionX === this.backgroundPositionsX.posicao1 ? this.backgroundPositionsX.posicao2 : this.backgroundPositionsX.posicao1;
+        this.element.style.backgroundPositionY = this.backgroundPositionsY.posicao2;
+        this.element.style.height = this.altura.posicao2; 
+      }
     }
   }
 
@@ -303,9 +344,15 @@
     if (Math.random() * 800 <= PROB_NUVEM) nuvens.push(new Nuvem()) // decidi diminuir a geração de nuvens..
     if (frame % 2 === 0) nuvens.forEach(nuvem => nuvem.mover())
     if(Math.random() * 1000 <= PROB_CACTO) cactos.push(new Cacto())
+    if(Math.random() * 500 <= PROB_PTERO) pteros.push(new Ptero())
+
+
     
     cactos.forEach(cacto => cacto.escolher());
-    cactos.forEach(cacto => cacto.mover()) 
+    cactos.forEach(cacto => cacto.mover());
+
+    pteros.forEach(ptero => ptero.mover());
+    pteros.forEach(ptero => ptero.voar());
 
   }
 
