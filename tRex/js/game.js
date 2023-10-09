@@ -20,10 +20,10 @@
   let jogoAtivo = true; // esta serve para as funções de pausa e de reiniciar o jogo quando perdemos
   let jogoPerdeu = false;
   let pteros = [];
-  let deslocamentoChao = 1;
-  let deslocamentoCacto = 1;
-  let deslocamentoPtero = 2;
-  let deslocamentoNuvem = 1;
+  let deslocamentoChao = 2;
+  let deslocamentoCacto = 2;
+  let deslocamentoPtero = 3;
+  let deslocamentoNuvem = 2;
   let tempoDecorrido = 0;
 
   function init() {
@@ -350,7 +350,7 @@
         posicao2: "-2px",
       }
 
-      this.nivel = 0 //parseInt(Math.random() * 3);
+      this.nivel = parseInt(Math.random() * 3);
 
       this.element.style.right = 0;
 
@@ -423,7 +423,20 @@
   }
 
   function reiniciaJogo(){
+    cactos.forEach(cacto => cacto.element.remove())
+    nuvens.forEach(nuvem => nuvem.element.remove())
+    pteros.forEach(ptero => ptero.element.remove())
 
+    cactos = []
+    nuvens = []
+    pteros = []
+
+    botao.element.remove()
+    letreiro.element.remove()
+    dino.element.remove()
+
+    init()
+    dino = new Dino()
   }
 
   function verificarColisao() {
@@ -438,7 +451,10 @@
     for (let j = 0; j < pteros.length; j++) {
       const ptero = pteros[j];
   
-      if (dino.element.offsetLeft + dino.element.offsetWidth > ptero.element.offsetLeft && dino.element.offsetLeft < ptero.element.offsetLeft + ptero.element.offsetWidth && dino.element.offsetTop + dino.element.offsetHeight > ptero.element.offsetTop) {
+      if ( dino.element.offsetLeft + dino.element.offsetWidth > ptero.element.offsetLeft &&
+      dino.element.offsetLeft < ptero.element.offsetLeft + ptero.element.offsetWidth &&
+      dino.element.offsetTop + dino.element.offsetHeight > ptero.element.offsetTop &&
+      dino.element.offsetTop < ptero.element.offsetTop + ptero.element.offsetHeight) {
         fimDeJogo()
       }
     }
@@ -461,7 +477,6 @@
     verificarColisao()
     if (Math.random() * 800 <= PROB_NUVEM) nuvens.push(new Nuvem()) // decidi diminuir a geração de nuvens..
     if (frame % 2 === 0) nuvens.forEach(nuvem => nuvem.mover())
-    if(Math.random() * 1000 <= PROB_CACTO) cactos.push(new Cacto())
     if(Math.random() * 500 <= PROB_PTERO) pteros.push(new Ptero())
     
     cactos.forEach(cacto => cacto.escolher());
@@ -475,6 +490,16 @@
       tempoDecorrido = 0;
     }
 
+  }
+
+  function gerarCacto() {
+    console.log("oii")
+
+    
+    cactos.push(new Cacto());
+    
+    const intervalo = Math.random() * 2000 + 1000; // Intervalo aleatório entre 1 e 3 segundos
+    setTimeout(gerarCacto, intervalo);
   }
 
   function pausaJogo(){
@@ -509,5 +534,7 @@
     botao.mostrarBotao()
     letreiro.mostrarLetreiro()
   }
+
+  gerarCacto()
 
 })()
