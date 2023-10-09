@@ -69,3 +69,19 @@
   top: 150px;
   right: 542px;
 }
+
+.pontuacao {
+  background-image: url(../img/sprite.png);
+  position: absolute;
+  z-index: 4;
+  width: 85px;
+  height: 14px;
+  right: 5px;
+  top: 5px;
+}
+
+.digito1, .digito2, .digito3, .digito4, .digito5 {
+  width: 17px;
+  height: 14px;
+  background-position-y: -2px;
+}

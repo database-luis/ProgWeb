@@ -12,6 +12,7 @@
   let deserto;
   let dino;
   let letreiro;
+  let pontuacao;
   let botao;
   let nuvens = [];
   let frame = 0;
@@ -25,8 +26,10 @@
   let deslocamentoPtero = 3;
   let deslocamentoNuvem = 2;
   let tempoDecorrido = 0;
+  let contarPontos = 0;
 
   function init() {
+    jogoPerdeu = false
     gameLoop = setInterval(run, 1000 / FPS)
     /*deserto = new Deserto();
     dino = new Dino();
@@ -36,6 +39,7 @@
       deserto.mudarCor();
     }, 60000);
     deserto.mudarCor();
+    
   }
 
   function retornaJogo(){
@@ -262,7 +266,6 @@
 
     escolher(){
 
-      console.log(this.tamanho, this.grupo);
       if(this.tamanho === 0){
         this.element.style.height = this.cactoAltura.cactoPequeno
         
@@ -373,7 +376,6 @@
 
       else {
         this.element.style.bottom = "20px";
-        console.log("baixinhooo");
       }
 
       if(posicao >= WIDTH){
@@ -422,10 +424,68 @@
     }
   }
 
+  class Pontuacao {
+    constructor(){
+      this.element = document.createElement("div")
+      this.element.className = "pontuacao"
+      this.backgroundPositionY = "-2px"
+      deserto.element.appendChild(this.element)
+
+      this.backgroundPositionsX = {
+        zero: "-969px",
+        um: "-984px",
+        dois: "-999px",
+        tres: "-1014px",
+        quatro: "-1029px",
+        cinco: '-1044px',
+        seis: "-1059px",
+        sete: "-1074px",
+        oito: '-1089px',
+        nove: "-1104px"
+      }
+
+      this.digito1 = document.createElement("div")
+      this.digito1.className = "digito1"
+
+      this.digito2 = document.createElement("div")
+      this.digito2.className = "digito2"
+
+      this.digito3 = document.createElement("div")
+      this.digito3.className = "digito3"
+
+      this.digito4 = document.createElement("div")
+      this.digito4.className = "digito4"
+
+      this.digito5 = document.createElement("div")
+      this.digito5.className = "digito5"
+
+      this.digito1.style.backgroundPositionX = "-969px"
+      this.digito2.style.backgroundPositionX = "-969px"
+      this.digito3.style.backgroundPositionX = "-969px"
+      this.digito4.style.backgroundPositionX = "-969px"
+      this.digito5.style.backgroundPositionX = "-969px"
+
+      this.element.appendChild(this.digito1);
+      this.element.appendChild(this.digito2);
+      this.element.appendChild(this.digito3);
+      this.element.appendChild(this.digito4);
+      this.element.appendChild(this.digito5);
+
+      this.element.style.display = "flex";
+      this.element.style.alignItems = "center";
+
+    }
+
+  }
+
   function reiniciaJogo(){
     cactos.forEach(cacto => cacto.element.remove())
     nuvens.forEach(nuvem => nuvem.element.remove())
     pteros.forEach(ptero => ptero.element.remove())
+
+    contarPontos = 0
+    frame = 0
+
 
     cactos = []
     nuvens = []
@@ -437,6 +497,7 @@
 
     init()
     dino = new Dino()
+
   }
 
   function verificarColisao() {
@@ -471,13 +532,24 @@
     tempoDecorrido += 1 / FPS;
 
     frame = frame + 1
+
+    if(frame % 30 === 0) contarPontos++;
+
+    if(contarPontos % 31 === 0 && contarPontos > 0 && frame % 31 === 0){
+      console.log("gerouuu")
+      gerarCacto()
+      gerarPtero()
+    }
+
+    console.log("frame:", frame)
+    console.log("pontos aqui:",contarPontos)
+
     if (frame === FPS) frame = 0;
     deserto.mover()
     dino.correr()
     verificarColisao()
     if (Math.random() * 800 <= PROB_NUVEM) nuvens.push(new Nuvem()) // decidi diminuir a geração de nuvens..
     if (frame % 2 === 0) nuvens.forEach(nuvem => nuvem.mover())
-    if(Math.random() * 500 <= PROB_PTERO) pteros.push(new Ptero())
     
     cactos.forEach(cacto => cacto.escolher());
     cactos.forEach(cacto => cacto.mover());
@@ -492,14 +564,14 @@
 
   }
 
-  function gerarCacto() {
-    console.log("oii")
+  function gerarPtero() {
+    pteros.push(new Ptero());
+  }
 
+  function gerarCacto() {
     
     cactos.push(new Cacto());
-    
-    const intervalo = Math.random() * 2000 + 1000; // Intervalo aleatório entre 1 e 3 segundos
-    setTimeout(gerarCacto, intervalo);
+  
   }
 
   function pausaJogo(){
@@ -511,7 +583,7 @@
     } 
     
     else {
-      retornaJogo();
+      retornaJogo()
     }
   }
 
@@ -522,6 +594,7 @@
   
   deserto = new Deserto();
   dino = new Dino();
+  pontuacao = new Pontuacao();
   botao = new Botao();
   letreiro = new Letreiro()
   dino.element.style.backgroundPositionX = "-1259px";
@@ -529,12 +602,12 @@
 
   function fimDeJogo(){
     jogoPerdeu = true
+    frame = 0
+    console.log("perdeukk")
     clearInterval(gameLoop)
     clearInterval(trocaTurno)
     botao.mostrarBotao()
     letreiro.mostrarLetreiro()
   }
-
-  gerarCacto()
 
 })()
