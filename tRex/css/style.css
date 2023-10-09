@@ -71,7 +71,8 @@
 }
 
 .pontuacao {
-  background-image: url(../img/sprite.png);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 30px;
   position: absolute;
   z-index: 4;
   width: 85px;
@@ -80,8 +81,13 @@
   top: 5px;
 }
 
-.digito1, .digito2, .digito3, .digito4, .digito5 {
-  width: 17px;
+.max {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 30px;
+  position: absolute;
+  z-index: 4;
+  width: 125px;
   height: 14px;
-  background-position-y: -2px;
+  right: 125px;
+  top: 5px
 }

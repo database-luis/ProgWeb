@@ -1,5 +1,8 @@
 (function () {
 
+  //professsor, desculpe a entrega atrasada, eu tentei implementar a pontuação com sprite, mas so depois vi que nao precisava
+  //este eh meu ultimo commit 09/10/2023 03:41:40
+
   const FPS = 300;
   const HEIGHT = 300;
   const WIDTH = 1024;
@@ -17,6 +20,7 @@
   let nuvens = [];
   let frame = 0;
   let cactos = [];
+  let ehDia = true;
   let jogoIniciou = false; // a diferença entre as duas eh q a primeira serve para iniciar o jogo com espaço, guarda o estado da div "zerada"
   let jogoAtivo = true; // esta serve para as funções de pausa e de reiniciar o jogo quando perdemos
   let jogoPerdeu = false;
@@ -27,26 +31,26 @@
   let deslocamentoNuvem = 2;
   let tempoDecorrido = 0;
   let contarPontos = 0;
+  let pontuacaoMaxima = 0;
+  let maxima;
 
   function init() {
+    jogoAtivo = true
+    tempoDecorridoJogo = 0
+    tempoDecorrido = 0
     jogoPerdeu = false
     gameLoop = setInterval(run, 1000 / FPS)
     /*deserto = new Deserto();
     dino = new Dino();
     cacto = new Cacto();*/ // deixa aqui, vai q ner kkk
-
-    trocaTurno = setInterval(() => {
-      deserto.mudarCor();
-    }, 60000);
+    
     deserto.mudarCor();
     
   }
 
   function retornaJogo(){
+    
     gameLoop = setInterval(run, 1000 / FPS)
-    trocaTurno = setInterval(() => {
-      deserto.mudarCor();
-    }, 60000);
 
     jogoAtivo = true
   }
@@ -100,7 +104,6 @@
       this.element.style.width = `${WIDTH}px`;
       this.element.style.height = `${HEIGHT}px`;
       document.getElementById("game").appendChild(this.element)
-      this.isDia = true;
 
       this.chao = document.createElement("div")
       this.chao.className = "chao"
@@ -114,15 +117,18 @@
     }
 
     mudarCor() {
-      if (this.isDia) {
+
+      if(contarPontos === 0) ehDia = true
+
+      if (ehDia) {
         this.element.style.backgroundColor = "#FFFFFF";
-        console.log(this.isDia)
+        console.log(ehDia)
       } else {
         this.element.style.backgroundColor = "#8C8C8C"; //finge que a cidade ta cheia de fumaça e a noite ta branca kk
-        console.log(this.isDia)
+        console.log(ehDia)
       }
 
-      this.isDia = !this.isDia;
+      ehDia = !ehDia;
       
     }
   }
@@ -425,57 +431,40 @@
   }
 
   class Pontuacao {
+    constructor() {
+      this.element = document.createElement("div");
+      this.element.className = "pontuacao";
+      
+      this.atualizarPontuacao(contarPontos);
+      deserto.element.appendChild(this.element);
+    }
+  
+    atualizarPontuacao(pontos) {
+      this.element.innerHTML = '';
+      const formatade = pontos.toString().padStart(5, 0)
+      const textoPontuacao = document.createTextNode(`${formatade}`);
+      this.element.appendChild(textoPontuacao);
+    }
+  }
+
+  class PontuacaoMaxima {
     constructor(){
       this.element = document.createElement("div")
-      this.element.className = "pontuacao"
-      this.backgroundPositionY = "-2px"
+      this.element.className = "max"
       deserto.element.appendChild(this.element)
-
-      this.backgroundPositionsX = {
-        zero: "-969px",
-        um: "-984px",
-        dois: "-999px",
-        tres: "-1014px",
-        quatro: "-1029px",
-        cinco: '-1044px',
-        seis: "-1059px",
-        sete: "-1074px",
-        oito: '-1089px',
-        nove: "-1104px"
-      }
-
-      this.digito1 = document.createElement("div")
-      this.digito1.className = "digito1"
-
-      this.digito2 = document.createElement("div")
-      this.digito2.className = "digito2"
-
-      this.digito3 = document.createElement("div")
-      this.digito3.className = "digito3"
-
-      this.digito4 = document.createElement("div")
-      this.digito4.className = "digito4"
-
-      this.digito5 = document.createElement("div")
-      this.digito5.className = "digito5"
-
-      this.digito1.style.backgroundPositionX = "-969px"
-      this.digito2.style.backgroundPositionX = "-969px"
-      this.digito3.style.backgroundPositionX = "-969px"
-      this.digito4.style.backgroundPositionX = "-969px"
-      this.digito5.style.backgroundPositionX = "-969px"
-
-      this.element.appendChild(this.digito1);
-      this.element.appendChild(this.digito2);
-      this.element.appendChild(this.digito3);
-      this.element.appendChild(this.digito4);
-      this.element.appendChild(this.digito5);
-
-      this.element.style.display = "flex";
-      this.element.style.alignItems = "center";
-
     }
 
+    atualizarPontuacao(pontos) {
+
+      if(pontos > pontuacaoMaxima){
+        this.element.innerHTML = '';
+        const formatade = pontos.toString().padStart(5, 0)
+        const textoPontuacao = document.createTextNode(`HI ${formatade}`);
+        this.element.appendChild(textoPontuacao);
+        pontuacaoMaxima = pontos
+      }
+
+    }
   }
 
   function reiniciaJogo(){
@@ -530,19 +519,23 @@
 
   function run() {
     tempoDecorrido += 1 / FPS;
+    tempoDecorridoJogo += 1 / FPS;
+
+    console.log("tempo:", parseInt(tempoDecorrido))
 
     frame = frame + 1
 
-    if(frame % 30 === 0) contarPontos++;
-
-    if(contarPontos % 31 === 0 && contarPontos > 0 && frame % 31 === 0){
-      console.log("gerouuu")
-      gerarCacto()
-      gerarPtero()
+    if(frame % 30 === 0) {
+      contarPontos++;
+      pontuacao.atualizarPontuacao(contarPontos);
     }
 
-    console.log("frame:", frame)
-    console.log("pontos aqui:",contarPontos)
+    if(contarPontos % 31 === 0 && contarPontos > 0 && frame % 31 === 0){
+      gerarCacto()
+
+    }
+
+    if(tempoDecorridoJogo >= 30 && contarPontos % 31 === 0 && contarPontos > 0 && frame % 31 === 0) gerarPtero()
 
     if (frame === FPS) frame = 0;
     deserto.mover()
@@ -557,8 +550,12 @@
     pteros.forEach(ptero => ptero.mover());
     pteros.forEach(ptero => ptero.voar());
 
+    
+    //a cada 60seg incrementa a vel e trocaTurno
+    //tentei usar o setInterval mas n consegui debugar
     if(tempoDecorrido >= 60){
       aumentarDeslocamento();
+      deserto.mudarCor()
       tempoDecorrido = 0;
     }
 
@@ -578,7 +575,6 @@
 
     if (jogoAtivo === true) {
       clearInterval(gameLoop);
-      clearInterval(trocaTurno);
       jogoAtivo = false;
     } 
     
@@ -603,11 +599,17 @@
   function fimDeJogo(){
     jogoPerdeu = true
     frame = 0
-    console.log("perdeukk")
     clearInterval(gameLoop)
-    clearInterval(trocaTurno)
+    if(pontuacaoMaxima === 0){
+      maxima = new PontuacaoMaxima()
+    }
+    maxima.atualizarPontuacao(contarPontos)
     botao.mostrarBotao()
     letreiro.mostrarLetreiro()
+    dino.element.style.backgroundPositionX = "-1523px"
+    dino.element.style.backgroundPositionY = "-2px"
+    dino.element.style.height = "71px"
+    dino.element.style.width = "67px"
   }
 
 })()
