@@ -6,9 +6,11 @@ campo.type = "text"
 campo.name = "raio"
 
 let botao = document.createElement("button")
-botao.type = "submit"
+botao.type = "button"
 botao.innerText = "OK"
-botao.onclick = calcularAreaECircunferencia
+botao.addEventListener("click", function(){
+    calcularAreaECircunferencia();
+})
 
 let quebra = document.createElement("br")
 let quebra2 = document.createElement("br")
@@ -34,10 +36,10 @@ function calcularAreaECircunferencia() {
     console.log("entrou");
     const raio = parseFloat(campo.value); // Obtenha o valor do campo de entrada "raio"
     if (!isNaN(raio)) {
-        const area = Math.PI * raio * raio;
-        const circunferencia = 2 * Math.PI * raio;
-        area.value = area.toFixed(2); // Atualize o valor do campo "area"
-        circunferencia.value = circunferencia.toFixed(2); // Atualize o valor do campo "circunferencia"
+        const areal = Math.PI * raio * raio;
+        const circunferencial = 2 * Math.PI * raio;
+        area.value = areal.toFixed(2)
+        circunferencia.value = circunferencial.toFixed(2)
     } else {
         alert("Insira um valor válido para o raio.");
     }
