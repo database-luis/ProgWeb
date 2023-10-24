@@ -1,7 +1,7 @@
 (function () {
 
   //professsor, desculpe a entrega atrasada, eu tentei implementar a pontuação com sprite, mas so depois vi que nao precisava
-  //este eh meu ultimo commit 09/10/2023 03:41:40
+  //este eh meu ultimo commit 09/10/2023 03:42:10
 
   const FPS = 300;
   const HEIGHT = 300;

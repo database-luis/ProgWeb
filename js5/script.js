@@ -23,6 +23,12 @@ altura5.className = "entrada"
 largura.className = "entrada"
 divzona.className = "divzona"
 
+divinha1.className = "divinha"
+divinha2.className = "divinha"
+divinha3.className = "divinha"
+divinha4.className = "divinha"
+divinha5.className = "divinha"
+
 label.textContent = "Informe a altura das barras: "
 label2.textContent = "Informe a largura das barras: "
 
@@ -78,7 +84,19 @@ function desenhar(){
     let alturinha3 = altura3.value
     let alturinha4 = altura4.value
     let alturinha5 = altura5.value
-    let lagurinha = largura.value
+    let largurinha = largura.value
 
     divinha1.style.height = alturinha1 + 'px'
+    divinha2.style.height = alturinha2 + 'px'
+    divinha3.style.height = alturinha3 + 'px'
+    divinha4.style.height = alturinha4 + 'px'
+    divinha5.style.height = alturinha5 + 'px'
+    
+    divzona.style.height = Math.max(alturinha1, alturinha2, alturinha3, alturinha4, alturinha5) + 'px'
+
+    divinha1.style.width = largurinha + 'px'
+    divinha2.style.width = largurinha + 'px'
+    divinha3.style.width = largurinha + 'px'
+    divinha4.style.width = largurinha + 'px'
+    divinha5.style.width = largurinha + 'px'
 }
