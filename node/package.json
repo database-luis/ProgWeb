@@ -1,0 +1,22 @@
+{
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "name": "node",
+  "version": "0.0.1",
+  "description": "pasta node para rep git",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com/database-luis/progweb"
+  },
+  "keywords": [
+    "node"
+  ],
+  "author": "Luis Santos",
+  "license": "ISC"
+}
