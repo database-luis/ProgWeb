@@ -1,6 +1,7 @@
 import express from "express"
 require('dotenv').config()
 
+
 const app = express()
 const PORT = 4444
 const host = process.env.DB_HOST
