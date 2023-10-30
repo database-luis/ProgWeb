@@ -1,14 +1,17 @@
-const path = require('path')
-
 const index = (req, res)=>{
-    res.render("0main/index", 
-    {msg: "Joguin",
-    layout: false})
+    res.render("main/index", )
 }
 
 const about = (req, res)=>{
-    res.render("main/about", { 
-        layout: false})
+    res.render("main/about")
 }
 
-export default {index, about}
+const ui = (req, res) => {
+    res.render("main/ui")
+}
+
+const game = (req, res) =>{
+    res.render("main/game")
+}
+
+export default {index, about, ui, game}
