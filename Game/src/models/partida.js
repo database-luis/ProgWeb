@@ -10,11 +10,11 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      this.belongsTo(models.Usuario)
     }
   }
   Partida.init({
-    usuarioId: DataTypes.INTEGER,
+    userId: DataTypes.INTEGER,
     pontuacao: DataTypes.INTEGER
   }, {
     sequelize,

@@ -10,6 +10,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       usuarioId: {
+        allowNull: false,
         type: Sequelize.INTEGER
       },
       pontuacao: {

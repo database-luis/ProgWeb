@@ -21,6 +21,7 @@ app.listen(PORT, () =>{
     console.log("alocado na porta", PORT)
 })
 
+app.use(express.urlencoded({extended: false}))
 app.use(morgan("combined"))
 app.use(router)
 app.use("/img", express.static(`${__dirname}/public/img`))
