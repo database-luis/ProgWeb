@@ -14,6 +14,9 @@ router.get('/game', mainController.game)
 //Controladores Area
 router.get('/area' , AreaController.index)
 
+//Controladores Autenticadores
+router.get("/auth", mainController.auth)
+
 //Controladores Curso
 router.get('/curso', cursoController.index)
 router.get('/curso/create', cursoController.create)

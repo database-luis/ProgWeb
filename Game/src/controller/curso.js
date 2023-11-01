@@ -27,6 +27,7 @@ const create = async (req, res) => {
         }
     }
 }
+
 const read = async (req, res) => {
     const id = req.params.id
     const curso = await Curso.findOne({where: { id }, include: models.Area})
@@ -34,9 +35,29 @@ const read = async (req, res) => {
        curso: curso.toJSON()
     })
 }
+
 const update = async (req, res) => {
+
+    if (req.route.methods.get) {
+        res.render('curso/create')
+    }
+    else {
+        const curso = req.body
+
+        try {
+            console.log("criou!")
+            await Curso.create(curso)
+            res.redirect('/curso')
+        } 
+        
+        catch(e) {
+            console.log(e)
+        }
+    }
 }
+
 const remove = async (req, res) => {
+    
 }
 
 module.exports = { index, create, read, update, remove }

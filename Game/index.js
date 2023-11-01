@@ -2,6 +2,7 @@ import express from "express"
 import router from "./src/router/router"
 import {engine} from "express-handlebars"
 import sass from "node-sass-middleware"
+import cookieParser from "cookie-parser"
 
 const app = express()
 const PORT = 4455
@@ -21,6 +22,7 @@ app.listen(PORT, () =>{
     console.log("alocado na porta", PORT)
 })
 
+app.use(cookieParser())
 app.use(express.urlencoded({extended: false}))
 app.use(morgan("combined"))
 app.use(router)
