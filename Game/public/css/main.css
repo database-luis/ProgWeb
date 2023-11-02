@@ -23477,3 +23477,9 @@ iframe {
   color: #eebeea;
   margin-right: 5px;
 }
+
+.card-cursos {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
